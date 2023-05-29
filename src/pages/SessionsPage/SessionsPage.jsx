@@ -1,42 +1,51 @@
 import styled from "styled-components"
+import { useState, useEffect } from "react"
+import { Link, useParams} from "react-router-dom"
+import axios from "axios"
 
 export default function SessionsPage() {
+
+    const [sessions, setSessions] = useState([])
+    const [footerMovie, setFooterMovie] = useState([])
+
+    const params = useParams()
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${params.idFilme}/showtimes`)
+
+        promise.then(resp => {
+            setFooterMovie(resp.data);
+            setSessions(resp.data.days)
+        })
+        promise.catch(error => { error.response })
+    }, [])
+
+    console.log(footerMovie)
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                {sessions.map(session =>
+                    <SessionContainer key={session.id}>
+                        {session.weekday} - {session.date}
+                        <ButtonsContainer>
+                            {session.showtimes.map( showtime =>
+                                <Link to={`/assentos/${showtime.id}`} key= {showtime.id}>
+                                    <button >{showtime.name}</button> 
+                                </Link>
+                            )}
+                        </ButtonsContainer>
+                    </SessionContainer>
+                )}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={footerMovie.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{footerMovie.title}</p>
                 </div>
             </FooterContainer>
 
