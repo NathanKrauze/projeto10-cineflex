@@ -1,18 +1,32 @@
 import styled from "styled-components"
+import Seats from "../../components/Seats"
+import { useState, useEffect } from "react"
+import {Link, useParams} from "react-router-dom"
+import axios from "axios"
 
-export default function SeatsPage() {
+export default function SeatsPage(props) {
+
+    const{movieSelected, setMovieSelected, setSeatsSelected, setClientName, setClientCPF}= props
+
+    const [seats, setSeats] = useState([])
+    const params = useParams()
+    console.log(movieSelected)
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${params.idSessao}/seats`)
+
+        promise.then(resp => {
+            setMovieSelected(resp.data)
+            setSeats(resp.data.seats)
+        })
+        promise.catch(error => { console.log(error.response) })
+    }, [])
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
-            <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
-            </SeatsContainer>
+            <Seats setSeatsSelected = {setSeatsSelected} seats = {seats}/>
 
             <CaptionContainer>
                 <CaptionItem>
@@ -31,21 +45,21 @@ export default function SeatsPage() {
 
             <FormContainer>
                 Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                <input placeholder="Digite seu nome..." data-test="client-name"/>
 
                 CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                <input placeholder="Digite seu CPF..." data-test="client-cpf"/>
 
-                <button>Reservar Assento(s)</button>
+                <button data-test="book-seat-btn">Reservar Assento(s)</button>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={movieSelected.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{movieSelected.title}</p>
+                    <p>{movieSelected.title} - {movieSelected.title}</p>
                 </div>
             </FooterContainer>
 
@@ -65,15 +79,7 @@ const PageContainer = styled.div`
     padding-bottom: 120px;
     padding-top: 70px;
 `
-const SeatsContainer = styled.div`
-    width: 330px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-`
+
 const FormContainer = styled.div`
     width: calc(100vw - 40px); 
     display: flex;
@@ -112,19 +118,7 @@ const CaptionItem = styled.div`
     align-items: center;
     font-size: 12px;
 `
-const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    font-family: 'Roboto';
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

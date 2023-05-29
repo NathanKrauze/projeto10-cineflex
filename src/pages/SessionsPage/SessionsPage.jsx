@@ -3,36 +3,36 @@ import { useState, useEffect } from "react"
 import { Link, useParams} from "react-router-dom"
 import axios from "axios"
 
-export default function SessionsPage() {
+export default function SessionsPage(props) {
+
+    const {movieSelected, setMovieSelected} = props;
 
     const [sessions, setSessions] = useState([])
-    const [footerMovie, setFooterMovie] = useState([])
 
     const params = useParams()
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${params.idFilme}/showtimes`)
 
-        promise.then(resp => {
-            setFooterMovie(resp.data);
+        promise.then( resp => {
+            setMovieSelected(resp.data);
             setSessions(resp.data.days)
         })
         promise.catch(error => { error.response })
     }, [])
 
-    console.log(footerMovie)
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
                 {sessions.map(session =>
-                    <SessionContainer key={session.id}>
+                    <SessionContainer key={session.id} data-test="movie-day">
                         {session.weekday} - {session.date}
                         <ButtonsContainer>
                             {session.showtimes.map( showtime =>
                                 <Link to={`/assentos/${showtime.id}`} key= {showtime.id}>
-                                    <button >{showtime.name}</button> 
+                                    <button data-test="showtime">{showtime.name}</button> 
                                 </Link>
                             )}
                         </ButtonsContainer>
@@ -40,12 +40,12 @@ export default function SessionsPage() {
                 )}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
-                    <img src={footerMovie.posterURL} alt="poster" />
+                    <img src={movieSelected.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>{footerMovie.title}</p>
+                    <p>{movieSelected.title}</p>
                 </div>
             </FooterContainer>
 

@@ -5,8 +5,14 @@ import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
 import axios from "axios"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { useState } from "react"
 
 export default function App() {
+
+    const[movieSelected, setMovieSelected] = useState([])
+    const[seatsSelected, setSeatsSelected] = useState([])
+    const[clientName, setClientName] = useState([])
+    const[clientCPF, setClientCPF] = useState([])
 
     axios.defaults.headers.common['Authorization'] = 'seuTokenDeAcessoNoHUB';
 
@@ -16,9 +22,23 @@ export default function App() {
                 <NavContainer>CINEFLEX</NavContainer>
                 <Routes>
                     <Route path= "" element={<HomePage />}/>
-                    <Route path= "/sessoes/:idFilme" element={<SessionsPage />}/>
-                    <Route path= "/assentos/:idSessao" element={<SeatsPage/>}/>
-                    <Route path= "/sucesso" element={<SuccessPage />}/>
+                    <Route path= "/sessoes/:idFilme" element={
+                        <SessionsPage 
+                        movieSelected = {movieSelected}
+                        setMovieSelected = {setMovieSelected}/>}/>
+                    <Route path= "/assentos/:idSessao" element={
+                        <SeatsPage 
+                        movieSelected = {movieSelected} 
+                        setMovieSelected = {setMovieSelected}
+                        setSeatsSelected = {setSeatsSelected}
+                        setclientName = {setClientName}
+                        setclientCPF = {setClientCPF}/>}/>
+                    <Route path= "/sucesso" element={
+                        <SuccessPage 
+                        movieSelected = {movieSelected} 
+                        seatsSelected = {seatsSelected}
+                        clientName = {clientName} 
+                        clientCPF = {clientCPF}/>}/>
                 </Routes>
             </BrowserRouter>
         </>
