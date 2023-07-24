@@ -4,10 +4,11 @@ import SeatsPage from "./pages/SeatsPage/SeatsPage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import SuccessPage from "./pages/SuccessPage/SuccessPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import { useState } from "react";
 
 export default function App() {
 
+    const [ userInfo, setUserInfo ] = useState([]);
 
     return (
         <BrowserRouter>
@@ -15,12 +16,12 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
-                <Route path="/assentos/:idSessao" element={<SeatsPage />} />
-                <Route path="/sucesso" element={<SuccessPage />} />
+                <Route path="/assentos/:idSessao" element={<SeatsPage setUserInfo={setUserInfo} />} />
+                <Route path="/sucesso" element={<SuccessPage userInfo={userInfo}/>} />
             </Routes>
         </BrowserRouter>
     )
-}
+};
 
 const NavContainer = styled.div`
     width: 100%;
@@ -38,4 +39,4 @@ const NavContainer = styled.div`
         text-decoration: none;
         color: #E8833A;
     }
-`
+`;

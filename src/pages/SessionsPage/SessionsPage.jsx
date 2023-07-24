@@ -7,38 +7,39 @@ import Session from "../../components/Session";
 export default function SessionsPage() {
 
     const { idFilme } = useParams();
-    const [ sessions, setSessions] = useState([]);
-    const [ movie, setMovie ] = useState([]);
-    console.log(sessions);
+    const [sessions, setSessions] = useState(undefined);
 
-    useEffect(()=>{
+    useEffect(() => {
         const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`)
-        request.then(response => {
-            setSessions(response.data.days);
-            setMovie(response.data);
-        });
+        request.then(response => setSessions(response.data));
         request.catch(error => console.log(error.response.data));
-    },[]);
+    }, []);
+
+    if (sessions === undefined) {
+        return (
+            <></>
+        )
+    };
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                {sessions.map(session => <Session session={session} key={session.id}/>)}
+                {sessions.days.map(session => <Session session={session} key={session.id} />)}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={movie.posterURL} alt="poster" />
+                    <img src={sessions.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>{movie.title}</p>
+                    <p>{sessions.title}</p>
                 </div>
             </FooterContainer>
 
         </PageContainer>
     )
-}
+};
 
 const PageContainer = styled.div`
     display: flex;

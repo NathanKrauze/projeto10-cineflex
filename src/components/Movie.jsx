@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export default function Movie({movie}) {
     return(
         <MovieContainer>
             <Link to={`/sessoes/${movie.id}`}>
-                <img src={movie.posterURL} alt="poster"/>
+                <img src={movie.posterURL} alt={movie.title}/>
             </Link>
         </MovieContainer>
     )
-}
+};
 
 const MovieContainer = styled.div`
     width: 145px;
@@ -24,4 +24,4 @@ const MovieContainer = styled.div`
         width: 130px;
         height: 190px;
     }
-`
+`;

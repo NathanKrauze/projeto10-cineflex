@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components"
+import styled from "styled-components";
 
 export default function Session({session}) {
     return (
@@ -7,14 +7,14 @@ export default function Session({session}) {
             {session.weekday} - {session.date}
             <ButtonsContainer>
                 {session.showtimes.map(showtime => 
-                    <Link to={`/assentos/${showtime.id}`}>
-                        <button>{showtime.name}</button>
+                    <Link to={`/assentos/${showtime.id}`} key={showtime.id}>
+                        <button >{showtime.name}</button>
                     </Link>
             )}
             </ButtonsContainer>
         </SessionContainer>
     )
-}
+};
 
 const SessionContainer = styled.div`
     display: flex;
