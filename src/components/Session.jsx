@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 export default function Session({session}) {
     return (
-        <SessionContainer>
+        <SessionContainer data-test='movie-day'>
             {session.weekday} - {session.date}
             <ButtonsContainer>
                 {session.showtimes.map(showtime => 
                     <Link to={`/assentos/${showtime.id}`} key={showtime.id}>
-                        <button >{showtime.name}</button>
+                        <button data-test='showtime'>{showtime.name}</button>
                     </Link>
             )}
             </ButtonsContainer>

@@ -28,7 +28,7 @@ export default function SessionsPage() {
                 {sessions.days.map(session => <Session session={session} key={session.id} />)}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test='footer'>
                 <div>
                     <img src={sessions.posterURL} alt="poster" />
                 </div>

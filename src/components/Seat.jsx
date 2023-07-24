@@ -18,7 +18,7 @@ export default function Seat ({seat, colorSeat, selected, reserveSeat}){
     }, [selected]);
 
     return(
-        <SeatItem seatStatus={seatStatus} colorSeat={colorSeat} onClick={reserveSeat}>{seat.name}</SeatItem>
+        <SeatItem seatStatus={seatStatus} colorSeat={colorSeat} onClick={reserveSeat} data-test='seat'>{seat.name}</SeatItem>
     )
 };
 

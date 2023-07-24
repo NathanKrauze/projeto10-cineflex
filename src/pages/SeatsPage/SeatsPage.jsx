@@ -68,7 +68,7 @@ export default function SeatsPage({ setUserInfo }) {
 
             <Form setUserInfo={setUserInfo} seats={seats} seatsSelected={seatsSelected} />
 
-            <FooterContainer>
+            <FooterContainer data-test='footer'>
                 <div>
                     <img src={seats.movie.posterURL} alt={seats.movie.title} />
                 </div>

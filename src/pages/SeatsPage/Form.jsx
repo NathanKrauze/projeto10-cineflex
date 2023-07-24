@@ -52,6 +52,7 @@ export default function Form({ setUserInfo, seats, seatsSelected }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                data-test='client-name'
             />
             <label htmlFor="cpf">CPF do Comprador:</label>
             <input
@@ -60,8 +61,9 @@ export default function Form({ setUserInfo, seats, seatsSelected }) {
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
                 required
+                data-test='client-cpf'
             />
-            <button type="submit" disabled={disabled}>Reservar Assento(s)</button>
+            <button type="submit" disabled={disabled} data-test='book-seat-btn'>Reservar Assento(s)</button>
         </FormContainer>
     )
 };
